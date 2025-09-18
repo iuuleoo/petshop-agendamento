@@ -8,17 +8,17 @@ export interface Appointment {
     time: string;
 }
 
-// Define os tipos dos elementos HTML para garantir que o TypeScript entenda
+// Define os tipos dos elementos HTML
 export interface FormElements {
-    petName: HTMLInputElement;
-    ownerName: HTMLInputElement;
-    contact: HTMLInputElement;
-    service: HTMLSelectElement;
-    date: HTMLInputElement;
-    time: HTMLInputElement;
+    petName: HTMLInputElement | null;
+    ownerName: HTMLInputElement | null;
+    contact: HTMLInputElement | null;
+    service: HTMLSelectElement | null;
+    date: HTMLInputElement | null;
+    time: HTMLInputElement | null;
 }
 
 // Define uma interface para o mapa de cores dos serviços
 export interface ServiceColors {
-    [key: string]: string; // A chave é uma string e o valor é uma string
+    [key: string]: string;
 }

@@ -1,56 +1,25 @@
-// Importa as interfaces que definimos no arquivo types.ts
-import { Appointment, FormElements, ServiceColors } from './types';
+import { Appointment, FormElements } from './types';
+import { AppointmentService } from './AppointmentService';
 
-// Mapeia os serviços às cores
-const serviceColors: ServiceColors = {
-    'Banho': '#87CEEB', // Azul claro
-    'Banho e Tosa': '#8A2BE2', // Azul violeta
-    'Consulta Veterinária': '#32CD32', // Verde
-    'Vacinação': '#FF6347', // Vermelho-tomate
+const serviceColors = {
+    'Banho': '#87CEEB',
+    'Banho e Tosa': '#8A2BE2',
+    'Consulta Veterinária': '#32CD32',
+    'Vacinação': '#FF6347',
 };
 
-// Função para validar se a data e hora são futuras
-function isFutureDateTime(date: string, time: string): boolean {
-    const selectedDateTime = new Date(`${date}T${time}`);
-    const currentDateTime = new Date();
-    return selectedDateTime > currentDateTime;
-}
-
-// Função para formatar a data para o padrão brasileiro (DD/MM/AAAA)
-function formatBrazilianDate(date: string): string {
-    const [year, month, day] = date.split('-');
-    return `${day}/${month}/${year}`;
-}
-
-// Função que cria e adiciona o cartão de agendamento na página com cores dinâmicas
-function displayAppointment(appointment: Appointment, container: HTMLDivElement): void {
-    const appointmentCard = document.createElement('div');
-    appointmentCard.classList.add('appointment-card');
-    
-    // Define a cor da borda esquerda com base no serviço
-    appointmentCard.style.borderLeftColor = serviceColors[appointment.service] || '#2B88D8';
-
-    appointmentCard.innerHTML = `
-        <p><strong>Pet:</strong> ${appointment.petName}</p>
-        <p><strong>Tutor:</strong> ${appointment.ownerName}</p>
-        <p><strong>Contato:</strong> ${appointment.contact}</p>
-        <p><strong>Serviço:</strong> ${appointment.service}</p>
-        <p><strong>Data:</strong> ${formatBrazilianDate(appointment.date)}</p>
-        <p><strong>Hora:</strong> ${appointment.time}</p>
-    `;
-
-    container.appendChild(appointmentCard);
-}
+// Array para armazenar os agendamentos
+const appointments: Appointment[] = [];
 
 // Lógica principal
 document.addEventListener('DOMContentLoaded', () => {
-    const appointmentForm = document.getElementById('appointment-form') as HTMLFormElement;
-    const appointmentsList = document.getElementById('appointments-list') as HTMLDivElement;
+    const form = document.getElementById('appointment-form') as HTMLFormElement;
     
-    appointmentForm.addEventListener('submit', (event: Event) => {
+    const appointmentService = new AppointmentService('appointments-list', serviceColors);
+    
+    form.addEventListener('submit', (event: Event) => {
         event.preventDefault();
 
-        // Mapeia os elementos do formulário e tipa-os
         const formElements: FormElements = {
             petName: document.getElementById('pet-name') as HTMLInputElement,
             ownerName: document.getElementById('owner-name') as HTMLInputElement,
@@ -59,6 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
             date: document.getElementById('date') as HTMLInputElement,
             time: document.getElementById('time') as HTMLInputElement,
         };
+
+        if (!formElements.petName || !formElements.ownerName || !formElements.contact || !formElements.service || !formElements.date || !formElements.time) {
+            console.error('Um ou mais elementos do formulário não foram encontrados.');
+            return;
+        }
 
         const newAppointment: Appointment = {
             petName: formElements.petName.value,
@@ -69,19 +43,23 @@ document.addEventListener('DOMContentLoaded', () => {
             time: formElements.time.value,
         };
         
-        // Validação usando os dados tipados
         if (!newAppointment.petName || !newAppointment.ownerName || !newAppointment.contact || 
             !newAppointment.service || !newAppointment.date || !newAppointment.time) {
             alert('Por favor, preencha todos os campos!');
             return;
         }
 
-        if (!isFutureDateTime(newAppointment.date, newAppointment.time)) {
+        if (!appointmentService.isFutureDateTime(newAppointment.date, newAppointment.time)) {
             alert('Por favor, selecione uma data e hora futuras!');
             return;
         }
+        
+        // Adiciona o novo agendamento ao array e salva
+        appointments.push(newAppointment);
+        // Chama o método para salvar os dados
+        localStorage.setItem('appointments', JSON.stringify(appointments));
 
-        displayAppointment(newAppointment, appointmentsList);
-        appointmentForm.reset();
+        appointmentService.displayAppointment(newAppointment);
+        form.reset();
     });
 });
