@@ -1,5 +1,13 @@
 // Importa as interfaces que definimos no arquivo types.ts
-import { Appointment, FormElements } from './types';
+import { Appointment, FormElements, ServiceColors } from './types';
+
+// Mapeia os serviços às cores
+const serviceColors: ServiceColors = {
+    'Banho': '#87CEEB', // Azul claro
+    'Banho e Tosa': '#8A2BE2', // Azul violeta
+    'Consulta Veterinária': '#32CD32', // Verde
+    'Vacinação': '#FF6347', // Vermelho-tomate
+};
 
 // Função para validar se a data e hora são futuras
 function isFutureDateTime(date: string, time: string): boolean {
@@ -14,11 +22,14 @@ function formatBrazilianDate(date: string): string {
     return `${day}/${month}/${year}`;
 }
 
-// Função que cria e adiciona o cartão de agendamento na página
+// Função que cria e adiciona o cartão de agendamento na página com cores dinâmicas
 function displayAppointment(appointment: Appointment, container: HTMLDivElement): void {
     const appointmentCard = document.createElement('div');
     appointmentCard.classList.add('appointment-card');
     
+    // Define a cor da borda esquerda com base no serviço
+    appointmentCard.style.borderLeftColor = serviceColors[appointment.service] || '#2B88D8';
+
     appointmentCard.innerHTML = `
         <p><strong>Pet:</strong> ${appointment.petName}</p>
         <p><strong>Tutor:</strong> ${appointment.ownerName}</p>

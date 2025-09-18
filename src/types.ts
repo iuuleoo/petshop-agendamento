@@ -1,4 +1,3 @@
-
 // Define a estrutura de um objeto de agendamento
 export interface Appointment {
     petName: string;
@@ -17,4 +16,9 @@ export interface FormElements {
     service: HTMLSelectElement;
     date: HTMLInputElement;
     time: HTMLInputElement;
+}
+
+// Define uma interface para o mapa de cores dos serviços
+export interface ServiceColors {
+    [key: string]: string; // A chave é uma string e o valor é uma string
 }
