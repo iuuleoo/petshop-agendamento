@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Shop Patas & Pelos - Agendamento</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>🐾 Pet Shop Patas & Pelos</h1>
+            <p>Agendamento Online</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="form-section">
+            <h2>Marcar Horário</h2>
+            <p>Preencha as informações abaixo para agendar um serviço para o seu pet.</p>
+        </section>
+
+        <section id="appointments-section">
+            <h2>Horários Agendados</h2>
+            <div id="appointments-list">
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Pet Shop Patas & Pelos. Todos os direitos reservados.</p>
+    </footer>
+
+    <form id="appointment-form">
+        <div class="form-group">
+            <label for="pet-name">Nome do Pet:</label>
+            <input type="text" id="pet-name" required>
+        </div>
+        <div class="form-group">
+            <label for="owner-name">Nome do Tutor:</label>
+            <input type="text" id="owner-name" required>
+        </div>
+        <div class="form-group">
+            <label for="contact">Contato (Telefone ou E-mail):</label>
+            <input type="text" id="contact" required>
+        </div>
+        <div class="form-group">
+            <label for="service">Serviço:</label>
+            <select id="service" required>
+                <option value="">Selecione um serviço</option>
+                <option value="Banho">Banho</option>
+                <option value="Banho e Tosa">Banho e Tosa</option>
+                <option value="Consulta Veterinária">Consulta Veterinária</option>
+                <option value="Vacinação">Vacinação</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="date">Data:</label>
+            <input type="date" id="date" required>
+        </div>
+        <div class="form-group">
+            <label for="time">Hora:</label>
+            <input type="time" id="time" required>
+        </div>
+        <button type="submit" class="btn">Agendar</button>
+    </form>
+
+    <script src="script.js"></script>
+</body>
+</html>
